@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-
+from webapp.forms import LoginForm
 from webapp.model import db, News
 from webapp.weather import weather_by_city
 
@@ -16,6 +16,10 @@ def create_app():
         news_list = News.query.all()
         return render_template('index.html', page_title=title, weather=weather, news_list=news_list)
 
-    return app
+    @app.route('/login')
+    def login():
+        title = "Авторизация"
+        login_form = LoginForm()
+        return render_template('login.html', page_title=title, form=login_form)
 
-# set FLASK_APP=webapp && set FLASK_ENV=development && flask run
+    return app
